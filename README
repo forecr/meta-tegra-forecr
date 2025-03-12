@@ -1,0 +1,65 @@
+This README file contains information on the contents of the meta-tegra-forecr layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: git://git.yoctoproject.org/poky.git
+  branch: scarthgap
+
+  URI: https://github.com/OE4T/meta-tegra.git
+  branch: scarthgap
+
+Patches
+=======
+
+Please submit any patches against the meta-tegra-forecr layer to the xxxx mailing list (xxxx@zzzz.org)
+and cc: the maintainer:
+
+Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
+
+Table of Contents
+=================
+
+  I. Adding the meta-tegra-forecr layer to your build
+ II. Misc
+
+
+I. Adding the meta-tegra-forecr layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-tegra-forecr'
+
+II. Misc
+========
+
+Use the following command to install Yocto dependencies on Ubuntu
+$ sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm zstd
+
+Create a working directory for Yocto
+$ YOCTO_DIR=/home/$USER/yocto-tegra
+$ mkdir $YOCTO_DIR
+
+Select the latest stable branch (as of June 2023)
+$ export BRANCH="scarthgap"
+
+Download Yocto's Poky base meta-layer 
+$ cd $YOCTO_DIR
+$ git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky
+
+Download meta-tegra (contains L4T 36.3.0 as of June 2024) 
+$ git clone -b ${BRANCH} https://github.com/OE4T/meta-tegra.git
+
+Download meta-tegra-forecr
+$ git clone -b ${BRANCH} https://github.com/forecr/meta-tegra-forecr.git
+
+Initialize the build environment 
+$ source poky/oe-init-build-env build
+
+# Update $YOCTO_DIR/build/conf/local.conf and $YOCTO_DIR/build/conf/bblayers.conf files
+
+Build the image with developer tools such as GStreamer, NVIDIA plugins, etc
+$ bitbake core-image-sato-dev
+
+
