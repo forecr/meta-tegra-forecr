@@ -14,10 +14,9 @@ Dependencies
 Patches
 =======
 
-Please submit any patches against the meta-tegra-forecr layer to the xxxx mailing list (xxxx@zzzz.org)
-and cc: the maintainer:
+Please submit any patches against the meta-tegra-forecr layer to the maintainer:
 
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
+Maintainer: forecr Support Team <support@forecr.io>
 
 Table of Contents
 =================
@@ -61,5 +60,9 @@ $ source poky/oe-init-build-env build
 
 Build the image with developer tools such as GStreamer, NVIDIA plugins, etc
 $ bitbake core-image-sato-dev
+or
+$ bitbake core-image-weston
+or
+$ bitbake core-image-base
 
 
