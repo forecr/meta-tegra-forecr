@@ -35,4 +35,4 @@ do_replace_kernel_src_files() {
 	mv ${S}/../git_tmp/kernel/kernel-jammy-src/* ${S}/
 	rm -r ${S}/../git_tmp
 }
-addtask replace_kernel_src_files before do_kernel_metadata after do_kernel_checkout
+addtask replace_kernel_src_files after do_validate_branches before do_patch
