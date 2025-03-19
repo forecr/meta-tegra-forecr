@@ -302,7 +302,8 @@ DL_DIR ?= "/home/${USER}/Yocto/downloads"
 ############################
 ### forecr Configuration ###
 ############################
-FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-AGX"
+#FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-AGX"
+#ODMDATA ?= "gbe-uphy-config-0,hsstp-lane-map-3,hsio-uphy-config-0,nvhs-uphy-config-0"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-AGXMAX"
 ##FORECR_PINMUX_POST_CONFIG ?= "-BEFORE-REV12"
@@ -310,17 +311,22 @@ FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-AGX"
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-NX2"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-ORNX"
+#ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-ORNX-LAN"
+#ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-ORNXS"
+#ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
 ############################
-#FORECR_CARRIER_BOARD_TYPE ?= "MILBOARD-AGX"
-##FORECR_PINMUX_POST_CONFIG ?= "-BEFORE-REV121"
+FORECR_CARRIER_BOARD_TYPE ?= "MILBOARD-AGX"
+#FORECR_PINMUX_POST_CONFIG ?= "-BEFORE-REV121"
+ODMDATA ?= "gbe-uphy-config-0,hsstp-lane-map-3,hsio-uphy-config-16,nvhs-uphy-config-0"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "RAIBOARD-AGX"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "RAIBOARD-ORNX"
+#ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
 ############################
 
 #BB_NUMBER_THREADS = '6'
