@@ -287,9 +287,28 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 # this doesn't mean anything to you.
 CONF_VERSION = "2"
 
-#MACHINE ?= "jetson-orin-nano-devkit"
-MACHINE ?= "jetson-agx-orin-devkit"
+
+#
+# Machine Selection
+#
+# Here are the definitions of each Jetson module
+#  "jetson-agx-orin-devkit"            - Jetson AGX Orin (P3701-0000 module)
+#  "p3737-0000-p3701-0004"             - Jetson AGX Orin 32GB (P3701-0004 module)
+#  "p3737-0000-p3701-0005"             - Jetson AGX Orin 64GB (P3701-0005 module)
+#  "jetson-agx-orin-devkit-industrial" - Jetson AGX Orin Industrial 64GB (P3701-0008 module)
+#  "p3768-0000-p3767-0000"             - Jetson Orin NX 16GB (P3767-0000 module)
+#  "p3768-0000-p3767-0001"             - Jetson Orin NX 8GB (P3767-0001 module)
+#  "p3768-0000-p3767-0003"             - Jetson Orin Nano 8GB (P3767-0003 module)
+#  "p3768-0000-p3767-0004"             - Jetson Orin Nano 4GB (p3767-0004 module)
+#
+#MACHINE ?= "jetson-agx-orin-devkit"
+MACHINE ?= "p3737-0000-p3701-0004"
+#MACHINE ?= "p3737-0000-p3701-0005"
 #MACHINE ?= "jetson-agx-orin-devkit-industrial"
+#MACHINE ?= "p3768-0000-p3767-0000"
+#MACHINE ?= "p3768-0000-p3767-0001"
+#MACHINE ?= "p3768-0000-p3767-0003"
+#MACHINE ?= "p3768-0000-p3767-0004"
 
 DISTRO_FEATURES = "x11 opengl "
 
