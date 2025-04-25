@@ -47,7 +47,7 @@ Download Yocto's Poky base meta-layer
 $ cd $YOCTO_DIR
 $ git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky
 
-Download meta-tegra (contains L4T 36.3.0 as of June 2024) 
+Download meta-tegra (contains L4T R36.4.0/JetPack-6.1 as of March 2025)
 $ git clone -b ${BRANCH} https://github.com/OE4T/meta-tegra.git
 
 Download meta-tegra-forecr
