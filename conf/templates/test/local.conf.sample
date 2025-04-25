@@ -348,5 +348,9 @@ ODMDATA ?= "gbe-uphy-config-0,hsstp-lane-map-3,hsio-uphy-config-16,nvhs-uphy-con
 #ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
 ############################
 
+#Add "net.ifnames=1" for predictable network interface renaming behavior
+KERNEL_ARGS:remove = "net.ifnames=0"
+KERNEL_ARGS:append = " net.ifnames=1"
+
 #BB_NUMBER_THREADS = '6'
 #PARALLEL_MAKE = '-j6'
