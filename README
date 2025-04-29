@@ -34,35 +34,37 @@ II. Misc
 ========
 
 Use the following command to install Yocto dependencies on Ubuntu
-$ sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm zstd
+	$ sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm zstd
 
 Create a working directory for Yocto
-$ YOCTO_DIR=/home/$USER/yocto-tegra
-$ mkdir $YOCTO_DIR
+	$ YOCTO_DIR=/home/$USER/yocto-tegra
+	$ mkdir $YOCTO_DIR
 
 Select the latest stable branch (as of June 2023)
-$ export BRANCH="scarthgap"
+	$ export BRANCH="scarthgap"
 
 Download Yocto's Poky base meta-layer 
-$ cd $YOCTO_DIR
-$ git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky
+	$ cd $YOCTO_DIR
+	$ git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky
 
 Download meta-tegra (contains L4T R36.4.0/JetPack-6.1 as of March 2025)
-$ git clone -b ${BRANCH} https://github.com/OE4T/meta-tegra.git
+	$ git clone -b ${BRANCH} https://github.com/OE4T/meta-tegra.git
 
 Download meta-tegra-forecr
-$ git clone -b ${BRANCH} https://github.com/forecr/meta-tegra-forecr.git
+	$ git clone -b ${BRANCH} https://github.com/forecr/meta-tegra-forecr.git
 
-Initialize the build environment 
-$ source poky/oe-init-build-env build
+Initialize the build environment
+	$ source poky/oe-init-build-env build
+Or initialize the build environment by using the template
+	$ TEMPLATECONF=$PWD/meta-tegra-forecr/conf/templates/test . poky/oe-init-build-env build
 
-# Update $YOCTO_DIR/build/conf/local.conf and $YOCTO_DIR/build/conf/bblayers.conf files
+Update $YOCTO_DIR/build/conf/local.conf and $YOCTO_DIR/build/conf/bblayers.conf files
 
 Build the image with developer tools such as GStreamer, NVIDIA plugins, etc
-$ bitbake core-image-sato-dev
+	$ bitbake core-image-sato-dev
 or
-$ bitbake core-image-weston
+	$ bitbake core-image-weston
 or
-$ bitbake core-image-base
+	$ bitbake core-image-base
 
 
