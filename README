@@ -53,6 +53,14 @@ Download meta-tegra (contains L4T R36.4.0/JetPack-6.1 as of March 2025)
 Download meta-tegra-forecr
 	$ git clone -b ${BRANCH} https://github.com/forecr/meta-tegra-forecr.git
 
+[Optional] If you have version incompatibility between Git repositories, you can restore to these commits
+	$ cd meta-tegra/
+	$ git checkout 8f9748b0178a4d93bceffd86d9d436cd0e685750
+	$ cd ../
+	$ cd ../poky/
+	$ git checkout dc4827b3660bc1a03a2bc3b0672615b50e9137ff
+	$ cd ..
+
 Initialize the build environment
 	$ source poky/oe-init-build-env build
 Or initialize the build environment by using the template
