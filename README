@@ -40,14 +40,14 @@ Create a working directory for Yocto
 	$ YOCTO_DIR=/home/$USER/yocto-tegra
 	$ mkdir $YOCTO_DIR
 
-Select the latest stable branch (as of June 2023)
+Select the scarthgap branch
 	$ export BRANCH="scarthgap"
 
 Download Yocto's Poky base meta-layer 
 	$ cd $YOCTO_DIR
-	$ git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky
+	$ git clone -b ${BRANCH} https://git.yoctoproject.org/poky
 
-Download meta-tegra (contains L4T R36.4.0/JetPack-6.1 as of March 2025)
+Download meta-tegra (contains L4T R36.5.0/JetPack-6.2.2)
 	$ git clone -b ${BRANCH} https://github.com/OE4T/meta-tegra.git
 
 Download meta-tegra-forecr
@@ -55,10 +55,10 @@ Download meta-tegra-forecr
 
 [Optional] If you have version incompatibility between Git repositories, you can restore to these commits
 	$ cd meta-tegra/
-	$ git checkout 8f9748b0178a4d93bceffd86d9d436cd0e685750
+	$ git checkout a54b81a1
 	$ cd ../
 	$ cd poky/
-	$ git checkout dc4827b3660bc1a03a2bc3b0672615b50e9137ff
+	$ git checkout 9916b7471e
 	$ cd ..
 
 Initialize the build environment
@@ -75,4 +75,7 @@ or
 or
 	$ bitbake core-image-base
 
+Disable automatic mounting of removable media before flashing
+	$ gsettings set org.gnome.desktop.media-handling automount false
+	$ gsettings set org.gnome.desktop.media-handling automount-open false
 

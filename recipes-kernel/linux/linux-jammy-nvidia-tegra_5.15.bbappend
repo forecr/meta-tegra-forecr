@@ -1,5 +1,5 @@
-SRCBRANCH = "JetPack-6.1"
-SRCREV = "936a78f28a7abea7d0ceb0e6894e890c964050d2"
+SRCBRANCH = "JetPack-6.2.2"
+SRCREV = "ad540c6e1b1438358e0ed496d4d1f736e1786bed"
 KBRANCH = "${SRCBRANCH}"
 SRC_REPO = "github.com/forecr/forecr_xavier_kernel.git;protocol=https"
 
