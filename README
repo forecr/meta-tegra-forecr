@@ -57,7 +57,7 @@ Download meta-tegra-forecr
 	$ cd meta-tegra/
 	$ git checkout 8f9748b0178a4d93bceffd86d9d436cd0e685750
 	$ cd ../
-	$ cd ../poky/
+	$ cd poky/
 	$ git checkout dc4827b3660bc1a03a2bc3b0672615b50e9137ff
 	$ cd ..
 
