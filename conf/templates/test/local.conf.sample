@@ -352,5 +352,12 @@ ODMDATA ?= "gbe-uphy-config-0,hsstp-lane-map-3,hsio-uphy-config-16,nvhs-uphy-con
 KERNEL_ARGS:remove = "net.ifnames=0"
 KERNEL_ARGS:append = " net.ifnames=1"
 
+# The host's e2fsprogs (1.47.0) enables ext4 features by default
+# (metadata_csum, metadata_csum_seed, 64bit, orphan_file) that are
+# not supported by the L4T 5.15 kernel's ext4 driver on this target.
+# Disabling them here avoids "unsupported optional features" mount
+# failures / journal checksum errors on first boot.
+EXTRA_IMAGECMD:ext4 = "-O ^metadata_csum_seed,^metadata_csum,^64bit,^orphan_file -I 256"
+
 #BB_NUMBER_THREADS = '6'
 #PARALLEL_MAKE = '-j6'
