@@ -1,0 +1,29 @@
+From c81ff9e9cba4fc1be4c77c9b99214a83846fdba6 Mon Sep 17 00:00:00 2001
+From: Ilies CHERGUI <ichergui@nvidia.com>
+Date: Mon, 11 May 2026 11:18:33 -0700
+Subject: [PATCH] OE cross build fixups
+
+Upstream-Status: Inappropriate [OE-specific]
+Signed-off-by: Ilies CHERGUI <ichergui@nvidia.com>
+---
+ cuda_bindings/build_hooks.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/cuda_bindings/build_hooks.py b/cuda_bindings/build_hooks.py
+index b2d3029c69..d348fa4144 100644
+--- a/cuda_bindings/build_hooks.py
++++ b/cuda_bindings/build_hooks.py
+@@ -342,9 +342,7 @@ def _build_cuda_bindings(strip=False):
+         _generate_output(file, template_vars)
+ 
+     # Prepare compile/link arguments
+-    include_dirs = [
+-        os.path.dirname(sysconfig.get_path("include")),
+-    ] + include_path_list
++    include_dirs = list(include_path_list)
+     library_dirs = [sysconfig.get_path("platlib"), os.path.join(os.sys.prefix, "lib")]
+     cudalib_subdirs = [r"lib\x64"] if sys.platform == "win32" else ["lib64", "lib"]
+     library_dirs.extend(os.path.join(prefix, subdir) for prefix in cuda_paths for subdir in cudalib_subdirs)
+-- 
+2.43.0
+
