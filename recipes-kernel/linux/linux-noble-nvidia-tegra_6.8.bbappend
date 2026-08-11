@@ -75,3 +75,4 @@ addtask replace_kernel_src_files after do_validate_branches before do_kernel_met
 KBUILD_DEFCONFIG:forecr-dsboard-agx = "dsboard_agx_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t4000 = "dsboard_thrmax_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t5000 = "dsboard_thrmax_defconfig"
+KBUILD_DEFCONFIG:forecr-raiboard-agx = "raiboard_agx_defconfig"
