@@ -67,7 +67,7 @@ set per exact machine (`dsboard_agx_defconfig`, `dsboard_thrmax_defconfig`).
 ## Usage
 
 ```
-../build_bitbake.sh <MACHINE> [target]
+../build_bitbake.sh <MACHINE> [bitbake-target]
 ```
 (workspace root) sets up `bitbake`/`openembedded-core`, a per-MACHINE build
 dir, and copies that MACHINE's `local.conf` from
