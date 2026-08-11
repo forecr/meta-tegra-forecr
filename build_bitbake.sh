@@ -34,16 +34,18 @@ YOCTO_DIR="$SCRIPT_DIR"
 
 BITBAKE_URI="https://git.openembedded.org/bitbake"
 BITBAKE_BRANCH="master"
+BITBAKE_DIR="$YOCTO_DIR/bitbake"
+
 OECORE_URI="https://git.openembedded.org/openembedded-core"
 OECORE_BRANCH="wrynose"
+OECORE_DIR="$YOCTO_DIR/openembedded-core"
+
 META_OE_URI="https://git.openembedded.org/meta-openembedded"
 META_OE_BRANCH="wrynose"
+META_OE_DIR="$YOCTO_DIR/meta-openembedded"
 
-BITBAKE_DIR="$YOCTO_DIR/bitbake"
-OECORE_DIR="$YOCTO_DIR/openembedded-core"
 META_TEGRA_DIR="$YOCTO_DIR/meta-tegra"
 META_TEGRA_FORECR_DIR="$YOCTO_DIR/meta-tegra-forecr"
-META_OE_DIR="$YOCTO_DIR/meta-openembedded"
 
 # Sub-layers inside the meta-openembedded monorepo that deepstream (and its
 # DEPENDS chain -- grpc, protobuf, jsoncpp, mosquitto, python bindings) need.
