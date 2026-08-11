@@ -86,12 +86,12 @@ usage() {
     cat <<EOF
 Usage: $(basename "$0") [-y] [-h] [-b build-dir] <MACHINE> [bitbake-target]
 
-Known meta-tegra-forecr MACHINEs:
-$(for m in "${KNOWN_MACHINES[@]}"; do echo "  - $m"; done)
-
   -y   assume "yes" for installing missing host packages (non-interactive)
   -b   build directory to work in
   -h   show this help
+
+Known meta-tegra-forecr MACHINEs:
+$(for m in "${KNOWN_MACHINES[@]}"; do echo "  - $m"; done)
 
 Example:
   $(basename "$0") forecr-dsboard-thrmax-t5000
