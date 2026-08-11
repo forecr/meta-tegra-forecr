@@ -49,6 +49,13 @@ META_TEGRA_URI="https://github.com/OE4T/meta-tegra"
 META_TEGRA_BRANCH="wrynose"
 META_TEGRA_DIR="$YOCTO_DIR/meta-tegra"
 
+get_machines() {
+    for machine in "${META_TEGRA_FORECR_DIR}"/conf/machine/*.conf; do
+        # Print the machine, without the path to the conf nor its file extension
+        basename $machine .conf
+    done
+}
+
 # Sub-layers inside the meta-openembedded monorepo that deepstream (and its
 # DEPENDS chain -- grpc, protobuf, jsoncpp, mosquitto, python bindings) need.
 # Each is its own BBFILE_COLLECTIONS entry, added to bblayers.conf separately.
@@ -63,11 +70,7 @@ META_OE_SUBLAYERS=(
     "$META_OE_DIR/meta-networking"
 )
 
-KNOWN_MACHINES=(
-    forecr-dsboard-agx
-    forecr-dsboard-thrmax-t4000
-    forecr-dsboard-thrmax-t5000
-)
+KNOWN_MACHINES=($(get_machines))
 
 REQUIRED_PACKAGES=(
     gawk wget git diffstat unzip texinfo gcc build-essential chrpath
