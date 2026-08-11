@@ -84,12 +84,13 @@ ASSUME_YES=0
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") [-y] [-h] <MACHINE> [bitbake-target]
+Usage: $(basename "$0") [-y] [-h] [-b build-dir] <MACHINE> [bitbake-target]
 
 Known meta-tegra-forecr MACHINEs:
 $(for m in "${KNOWN_MACHINES[@]}"; do echo "  - $m"; done)
 
   -y   assume "yes" for installing missing host packages (non-interactive)
+  -b   build directory to work in
   -h   show this help
 
 Example:
@@ -98,8 +99,9 @@ EOF
     exit "${1:-1}"
 }
 
-while getopts "yh" opt; do
+while getopts "b:yh" opt; do
     case "$opt" in
+        b) BUILD_DIR=${OPTARG} ;;
         y) ASSUME_YES=1 ;;
         h) usage 0 ;;
         *) usage 1 ;;
@@ -119,7 +121,9 @@ if [ "$known" -eq 0 ]; then
     echo "warning: '$MACHINE' is not one of the known meta-tegra-forecr machines (see -h) -- continuing anyway" >&2
 fi
 
-BUILD_DIR="$YOCTO_DIR/build-$MACHINE"
+[ -z ${BUILD_DIR} ] && {
+    BUILD_DIR="$YOCTO_DIR/build-$MACHINE"
+}
 
 # --- 1. host package check --------------------------------------------------
 echo "==> Checking host build dependencies..."
