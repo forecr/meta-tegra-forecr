@@ -29,8 +29,9 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-YOCTO_DIR="$SCRIPT_DIR"
+THIS_SCRIPT=$(readlink -f "${BASH_SOURCE[0]}")
+META_TEGRA_FORECR_DIR="$(dirname ${THIS_SCRIPT})"
+YOCTO_DIR="$(readlink -f ${META_TEGRA_FORECR_DIR}/..)"
 
 BITBAKE_URI="https://git.openembedded.org/bitbake"
 BITBAKE_BRANCH="master"
@@ -45,7 +46,6 @@ META_OE_BRANCH="wrynose"
 META_OE_DIR="$YOCTO_DIR/meta-openembedded"
 
 META_TEGRA_DIR="$YOCTO_DIR/meta-tegra"
-META_TEGRA_FORECR_DIR="$YOCTO_DIR/meta-tegra-forecr"
 
 # Sub-layers inside the meta-openembedded monorepo that deepstream (and its
 # DEPENDS chain -- grpc, protobuf, jsoncpp, mosquitto, python bindings) need.
