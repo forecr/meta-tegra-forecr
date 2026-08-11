@@ -56,6 +56,23 @@ get_machines() {
     done
 }
 
+# Function to create a convenience sourcable script
+# which will set up an existing build directory using
+# the Yocto sources provided here.
+# $1: build directory to instantiate (and to write the script to)
+create_build_env_source_script() {
+cat <<EOF > "${1}/env_setup.sh"
+#!/bin/bash
+
+export MACHINE=${MACHINE}
+source "$OECORE_DIR/oe-init-build-env" "${1}"
+EOF
+
+echo "In a new shell, you can access this Yocto build environment by invoking"
+echo $'\t'source ${1}/env_setup.sh
+echo for convenience purposes.
+}
+
 # Sub-layers inside the meta-openembedded monorepo that deepstream (and its
 # DEPENDS chain -- grpc, protobuf, jsoncpp, mosquitto, python bindings) need.
 # Each is its own BBFILE_COLLECTIONS entry, added to bblayers.conf separately.
@@ -180,6 +197,7 @@ echo "==> Setting up build directory: $BUILD_DIR"
 # strict mode just for this call.
 set +euo pipefail
 source "$OECORE_DIR/oe-init-build-env" "$BUILD_DIR" >/dev/null
+create_build_env_source_script "$BUILD_DIR"
 set -euo pipefail
 
 BBLAYERS_CONF="$BUILD_DIR/conf/bblayers.conf"
