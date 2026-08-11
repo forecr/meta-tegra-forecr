@@ -18,11 +18,25 @@ depends on [meta-tegra](https://github.com/OE4T/meta-tegra) (branch
   hardware-verified.
 
 - [meta-tegra-forecr](#meta-tegra-forecr)
+  - [Quick start](#quick-start)
   - [Architecture](#architecture)
   - [Usage](#usage)
   - [Adding another board](#adding-another-board)
   - [Known gaps / next steps](#known-gaps--next-steps)
 
+## Quick start
+In a fresh shell:
+```bash
+# Create an empty folder which will contain all the Yocto sources
+mkdir yocto_forecr
+cd yocto_forecr
+
+# Clone this layer into the freshly created directory
+git clone git@github.com:forecr/meta-tegra-forecr.git -b wrynose
+
+# Call the helper script to build for dsboard-thrmax with T5000 SoM.
+./meta-tegra-forecr/build_bitbake.sh forecr-dsboard-thrmax-t5000
+```
 
 ## Architecture
 
