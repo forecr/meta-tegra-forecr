@@ -45,6 +45,8 @@ META_OE_URI="https://git.openembedded.org/meta-openembedded"
 META_OE_BRANCH="wrynose"
 META_OE_DIR="$YOCTO_DIR/meta-openembedded"
 
+META_TEGRA_URI="https://github.com/OE4T/meta-tegra"
+META_TEGRA_BRANCH="wrynose"
 META_TEGRA_DIR="$YOCTO_DIR/meta-tegra"
 
 # Sub-layers inside the meta-openembedded monorepo that deepstream (and its
@@ -158,13 +160,7 @@ clone_if_missing() {
 clone_if_missing "$BITBAKE_DIR" "$BITBAKE_URI" "$BITBAKE_BRANCH"
 clone_if_missing "$OECORE_DIR" "$OECORE_URI" "$OECORE_BRANCH"
 clone_if_missing "$META_OE_DIR" "$META_OE_URI" "$META_OE_BRANCH"
-
-for d in "$META_TEGRA_DIR" "$META_TEGRA_FORECR_DIR"; do
-    if [ ! -d "$d/.git" ]; then
-        echo "error: expected layer not found at $d -- clone it first" >&2
-        exit 1
-    fi
-done
+clone_if_missing "$META_TEGRA_DIR" "$META_TEGRA_URI" "$META_TEGRA_BRANCH"
 
 # --- 3. build directory / conf setup ----------------------------------------
 echo "==> Setting up build directory: $BUILD_DIR"
