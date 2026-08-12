@@ -3,6 +3,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI:append = " file://DSBOARD-AGX/bootloader/ \
                    file://DSBOARD-AGXMAX/bootloader/ \
                    file://DSBOARD-AGXMAX-BEFORE-REV12/bootloader/ \
+                   file://DSBOARD-AGXS/bootloader/ \
                    file://DSBOARD-NX2/bootloader/ \
                    file://DSBOARD-ORNX/bootloader/ \
                    file://DSBOARD-ORNX-LAN/bootloader/ \
