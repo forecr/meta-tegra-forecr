@@ -11,6 +11,8 @@ python () {
         d.setVar("KBUILD_DEFCONFIG", "dsboard_agx_defconfig")
     elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "DSBOARD-AGXMAX":
         d.setVar("KBUILD_DEFCONFIG", "dsboard_agx_defconfig")
+    elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "DSBOARD-AGXS":
+        d.setVar("KBUILD_DEFCONFIG", "dsboard_agx_defconfig")
     elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "DSBOARD-NX2":
         d.setVar("KBUILD_DEFCONFIG", "dsboard_nx2_defconfig")
     elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "DSBOARD-ORNX":

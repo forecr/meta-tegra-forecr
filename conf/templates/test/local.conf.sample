@@ -329,6 +329,9 @@ DL_DIR ?= "/home/${USER}/Yocto/downloads"
 ##FORECR_PINMUX_POST_CONFIG ?= "-BEFORE-REV12"
 #KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-dsboard-agxmax-base.dtb"
 ############################
+#FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-AGXS"
+#KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-dsboard-agxs-base.dtb"
+############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-NX2"
 #KERNEL_DEVICETREE="tegra234-p3768-0000+p3767-0000-nv-dsboard-nx2.dtb"
 ############################
