@@ -356,6 +356,10 @@ KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-milboard-agx-base.dtb"
 #ODMDATA ?= "gbe-uphy-config-22,hsstp-lane-map-3,nvhs-uphy-config-0,hsio-uphy-config-16,gbe0-enable-10g"
 #KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-milboard-agxmax-base.dtb"
 ############################
+#FORECR_CARRIER_BOARD_TYPE ?= "MILBOARD-ORNX"
+#ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
+#KERNEL_DEVICETREE="tegra234-p3768-0000+p3767-0000-nv-milboard-ornx-base.dtb"
+############################
 #FORECR_CARRIER_BOARD_TYPE ?= "RAIBOARD-AGX"
 #KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-raiboard-agx-base.dtb"
 ############################

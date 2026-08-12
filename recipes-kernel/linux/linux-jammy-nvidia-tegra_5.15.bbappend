@@ -25,6 +25,8 @@ python () {
         d.setVar("KBUILD_DEFCONFIG", "milboard_agx_defconfig")
     elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "MILBOARD-AGXMAX":
         d.setVar("KBUILD_DEFCONFIG", "milboard_agx_defconfig")
+    elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "MILBOARD-ORNX":
+        d.setVar("KBUILD_DEFCONFIG", "milboard_ornx_defconfig")
     elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "RAIBOARD-AGX":
         d.setVar("KBUILD_DEFCONFIG", "raiboard_agx_defconfig")
     elif d.getVar("FORECR_CARRIER_BOARD_TYPE") == "RAIBOARD-ORNX":
