@@ -323,29 +323,38 @@ DL_DIR ?= "/home/${USER}/Yocto/downloads"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-AGX"
 #ODMDATA ?= "gbe-uphy-config-0,hsstp-lane-map-3,hsio-uphy-config-0,nvhs-uphy-config-0"
+#KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-dsboard-agx-base.dtb"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-AGXMAX"
 ##FORECR_PINMUX_POST_CONFIG ?= "-BEFORE-REV12"
+#KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-dsboard-agxmax-base.dtb"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-NX2"
+#KERNEL_DEVICETREE="tegra234-p3768-0000+p3767-0000-nv-dsboard-nx2.dtb"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-ORNX"
 #ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
+#KERNEL_DEVICETREE="tegra234-p3768-0000+p3767-0000-nv-dsboard-ornx.dtb"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-ORNX-LAN"
 #ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
+#KERNEL_DEVICETREE="tegra234-p3768-0000+p3767-0000-nv-dsboard-ornx-lan-base.dtb"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "DSBOARD-ORNXS"
 #ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
+#KERNEL_DEVICETREE="tegra234-p3768-0000+p3767-0000-nv-dsboard-ornxs-base.dtb"
 ############################
 FORECR_CARRIER_BOARD_TYPE ?= "MILBOARD-AGX"
 #FORECR_PINMUX_POST_CONFIG ?= "-BEFORE-REV121"
 ODMDATA ?= "gbe-uphy-config-0,hsstp-lane-map-3,hsio-uphy-config-16,nvhs-uphy-config-0"
+KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-milboard-agx-base.dtb"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "RAIBOARD-AGX"
+#KERNEL_DEVICETREE="tegra234-p3737-0000+p3701-0004-nv-raiboard-agx-base.dtb"
 ############################
 #FORECR_CARRIER_BOARD_TYPE ?= "RAIBOARD-ORNX"
 #ODMDATA ?= "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
+#KERNEL_DEVICETREE="tegra234-p3768-0000+p3767-0000-nv-raiboard-ornx-base.dtb"
 ############################
 
 #Add "net.ifnames=1" for predictable network interface renaming behavior
