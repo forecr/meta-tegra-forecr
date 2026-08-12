@@ -11,6 +11,7 @@ SRC_URI:append = " file://DSBOARD-AGX/bootloader/ \
                    file://MILBOARD-AGX/bootloader/ \
                    file://MILBOARD-AGX-BEFORE-REV121/bootloader/ \
                    file://MILBOARD-AGXMAX/bootloader/ \
+                   file://MILBOARD-ORNX/bootloader/ \
                    file://RAIBOARD-AGX/bootloader/ \
                    file://RAIBOARD-ORNX/bootloader/ \
 "
