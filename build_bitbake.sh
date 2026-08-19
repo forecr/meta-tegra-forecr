@@ -29,21 +29,49 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-YOCTO_DIR="$SCRIPT_DIR"
+THIS_SCRIPT=$(readlink -f "${BASH_SOURCE[0]}")
+META_TEGRA_FORECR_DIR="$(dirname ${THIS_SCRIPT})"
+YOCTO_DIR="$(readlink -f ${META_TEGRA_FORECR_DIR}/..)"
 
 BITBAKE_URI="https://git.openembedded.org/bitbake"
 BITBAKE_BRANCH="master"
+BITBAKE_DIR="$YOCTO_DIR/bitbake"
+
 OECORE_URI="https://git.openembedded.org/openembedded-core"
 OECORE_BRANCH="wrynose"
+OECORE_DIR="$YOCTO_DIR/openembedded-core"
+
 META_OE_URI="https://git.openembedded.org/meta-openembedded"
 META_OE_BRANCH="wrynose"
-
-BITBAKE_DIR="$YOCTO_DIR/bitbake"
-OECORE_DIR="$YOCTO_DIR/openembedded-core"
-META_TEGRA_DIR="$YOCTO_DIR/meta-tegra"
-META_TEGRA_FORECR_DIR="$YOCTO_DIR/meta-tegra-forecr"
 META_OE_DIR="$YOCTO_DIR/meta-openembedded"
+
+META_TEGRA_URI="https://github.com/OE4T/meta-tegra"
+META_TEGRA_BRANCH="wrynose"
+META_TEGRA_DIR="$YOCTO_DIR/meta-tegra"
+
+get_machines() {
+    for machine in "${META_TEGRA_FORECR_DIR}"/conf/machine/*.conf; do
+        # Print the machine, without the path to the conf nor its file extension
+        basename $machine .conf
+    done
+}
+
+# Function to create a convenience sourcable script
+# which will set up an existing build directory using
+# the Yocto sources provided here.
+# $1: build directory to instantiate (and to write the script to)
+create_build_env_source_script() {
+cat <<EOF > "${1}/env_setup.sh"
+#!/bin/bash
+
+export MACHINE=${MACHINE}
+source "$OECORE_DIR/oe-init-build-env" "${1}"
+EOF
+
+echo "In a new shell, you can access this Yocto build environment by invoking"
+echo $'\t'source ${1}/env_setup.sh
+echo for convenience purposes.
+}
 
 # Sub-layers inside the meta-openembedded monorepo that deepstream (and its
 # DEPENDS chain -- grpc, protobuf, jsoncpp, mosquitto, python bindings) need.
@@ -59,11 +87,7 @@ META_OE_SUBLAYERS=(
     "$META_OE_DIR/meta-networking"
 )
 
-KNOWN_MACHINES=(
-    forecr-dsboard-agx
-    forecr-dsboard-thrmax-t4000
-    forecr-dsboard-thrmax-t5000
-)
+KNOWN_MACHINES=($(get_machines))
 
 REQUIRED_PACKAGES=(
     gawk wget git diffstat unzip texinfo gcc build-essential chrpath
@@ -77,13 +101,14 @@ ASSUME_YES=0
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") [-y] [-h] <MACHINE> [bitbake-target]
+Usage: $(basename "$0") [-y] [-h] [-b build-dir] <MACHINE> [bitbake-target]
+
+  -y   assume "yes" for installing missing host packages (non-interactive)
+  -b   build directory to work in
+  -h   show this help
 
 Known meta-tegra-forecr MACHINEs:
 $(for m in "${KNOWN_MACHINES[@]}"; do echo "  - $m"; done)
-
-  -y   assume "yes" for installing missing host packages (non-interactive)
-  -h   show this help
 
 Example:
   $(basename "$0") forecr-dsboard-thrmax-t5000
@@ -91,8 +116,9 @@ EOF
     exit "${1:-1}"
 }
 
-while getopts "yh" opt; do
+while getopts "b:yh" opt; do
     case "$opt" in
+        b) BUILD_DIR=${OPTARG} ;;
         y) ASSUME_YES=1 ;;
         h) usage 0 ;;
         *) usage 1 ;;
@@ -112,7 +138,9 @@ if [ "$known" -eq 0 ]; then
     echo "warning: '$MACHINE' is not one of the known meta-tegra-forecr machines (see -h) -- continuing anyway" >&2
 fi
 
-BUILD_DIR="$YOCTO_DIR/build-$MACHINE"
+[ -z ${BUILD_DIR} ] && {
+    BUILD_DIR="$YOCTO_DIR/build-$MACHINE"
+}
 
 # --- 1. host package check --------------------------------------------------
 echo "==> Checking host build dependencies..."
@@ -156,13 +184,7 @@ clone_if_missing() {
 clone_if_missing "$BITBAKE_DIR" "$BITBAKE_URI" "$BITBAKE_BRANCH"
 clone_if_missing "$OECORE_DIR" "$OECORE_URI" "$OECORE_BRANCH"
 clone_if_missing "$META_OE_DIR" "$META_OE_URI" "$META_OE_BRANCH"
-
-for d in "$META_TEGRA_DIR" "$META_TEGRA_FORECR_DIR"; do
-    if [ ! -d "$d/.git" ]; then
-        echo "error: expected layer not found at $d -- clone it first" >&2
-        exit 1
-    fi
-done
+clone_if_missing "$META_TEGRA_DIR" "$META_TEGRA_URI" "$META_TEGRA_BRANCH"
 
 # --- 3. build directory / conf setup ----------------------------------------
 echo "==> Setting up build directory: $BUILD_DIR"
@@ -175,6 +197,7 @@ echo "==> Setting up build directory: $BUILD_DIR"
 # strict mode just for this call.
 set +euo pipefail
 source "$OECORE_DIR/oe-init-build-env" "$BUILD_DIR" >/dev/null
+create_build_env_source_script "$BUILD_DIR"
 set -euo pipefail
 
 BBLAYERS_CONF="$BUILD_DIR/conf/bblayers.conf"
