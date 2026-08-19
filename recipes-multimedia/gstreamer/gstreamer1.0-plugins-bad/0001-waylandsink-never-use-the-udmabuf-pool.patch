@@ -1,0 +1,86 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kaya Kaan Tuna <kayatuna@forecr.io>
+Date: Tue, 18 Aug 2026 00:00:00 +0000
+Subject: [PATCH] waylandsink: never use the udmabuf pool for the ALLOCATION
+ response
+
+gst_wayland_sink_propose_allocation() creates a GstVideoDmabufPool via
+gst_video_dmabuf_pool_new() whenever a udmabuf allocator is available
+on the system (GST_IS_UDMABUF_ALLOCATOR(allocator)), instead of the
+older/simpler wl_shm-backed GstWlVideoBufferPool every prior GStreamer
+release used unconditionally. This is new in this exact 1.28 release
+(gst-libs/gst/video/gstvideodmabufpool.c carries "Since: 1.28" and a
+2025 copyright).
+
+This turned out to be a two-layer problem on real Jetson Thor hardware
+(DSBOARD-THRMAX, GStreamer 1.28.2), diagnosed against a pipeline that
+feeds NVIDIA's proprietary, closed-source nvvideoconvert into
+waylandsink:
+
+ 1. As originally written, the function never configures the pool at
+    all before handing it upstream via the ALLOCATION query response,
+    so gst_buffer_pool_set_active() later fails outright with "pool
+    was not configured" and the pipeline never reaches PLAYING:
+
+      gstbufferpool.c:555:gst_buffer_pool_set_active:<videodmabufpool0>
+      pool was not configured
+      ERROR: from element .../Gstnvvideoconvert:nvvideoconvert0:
+      failed to activate bufferpool
+
+    Removing /dev/udmabuf access (so GST_IS_UDMABUF_ALLOCATOR is never
+    true and this branch is never taken) made the exact same pipeline
+    preroll and play cleanly, isolating the bug to this branch.
+
+ 2. Actually configuring GstVideoDmabufPool correctly (its own
+    set_config() hard-requires GST_BUFFER_POOL_OPTION_VIDEO_META and
+    GST_BUFFER_POOL_OPTION_VIDEO_ALIGNMENT to be present, and always
+    rejects+self-corrects the first config it's given per its own
+    UDMABUF_ALIGNMENT_MASK contract, so the caller has to retry once)
+    gets the pipeline running, but produces visibly corrupted output:
+    torn/shifted horizontal banding across the whole frame. The pool
+    unconditionally forces every plane's row stride up to a 256-byte
+    (UDMABUF_ALIGNMENT_MASK) boundary as part of that same set_config()
+    logic. nvvideoconvert has no idea this pool type or its alignment
+    contract exists -- it writes pixel rows using its own, unpadded
+    stride, while the buffer's GstVideoMeta now advertises the pool's
+    256-aligned one. The compositor reads each row from the wrong
+    offset against what was actually written, which is exactly this
+    kind of banding. There's no way to fix this from the waylandsink
+    side alone -- it would require nvvideoconvert itself (proprietary,
+    not something this layer can patch) to honour the negotiated
+    alignment.
+
+Since the hardware-accelerated-source case this layer cares about
+can't safely use the new pool type at all, stop choosing it based on
+allocator type and always take the wl_shm-backed
+GstWlVideoBufferPool path instead -- exactly what every GStreamer
+release before 1.28 did unconditionally, and confirmed tear-free on
+this hardware earlier in the same diagnosis. GstWlVideoBufferPool's
+own config handling isn't specific to shm allocators -- it's handed
+whatever allocator gst_udmabuf_allocator_get()/gst_shm_allocator_get()
+picked either way, both before and after this change; only the pool
+*class* selection is affected.
+
+Upstream-Status: Pending
+Signed-off-by: Kaya Kaan Tuna <kayatuna@forecr.io>
+---
+ ext/wayland/gstwaylandsink.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
+index 1111111..2222222 100644
+--- a/ext/wayland/gstwaylandsink.c
++++ b/ext/wayland/gstwaylandsink.c
+@@ -896,9 +896,7 @@ gst_wayland_sink_propose_allocation (GstBaseSink * bsink, GstQuery * query)
+   if (need_pool && !gst_video_is_dma_drm_caps (caps)) {
+     GstStructure *config;
+
+-    if (GST_IS_UDMABUF_ALLOCATOR (allocator)) {
+-      pool = gst_video_dmabuf_pool_new ();
+-    } else {
++    {
+       pool = gst_wl_video_buffer_pool_new ();
+       config = gst_buffer_pool_get_config (pool);
+       gst_buffer_pool_config_set_params (config, caps, size, 2, 0);
+--
+2.43.0

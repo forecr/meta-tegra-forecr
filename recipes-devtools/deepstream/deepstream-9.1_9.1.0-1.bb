@@ -115,8 +115,29 @@ do_install() {
     install -d ${D}${libdir}/gstreamer-1.0/deepstream
     install -m 0644 ${S}${DEEPSTREAM_PATH}/lib/gst-plugins/* ${D}${libdir}/gstreamer-1.0/deepstream/
 
+    # GStreamer's default plugin scanner only looks directly in
+    # ${libdir}/gstreamer-1.0/, not recursively into subdirectories -- so
+    # without this, DeepStream's own elements (nvstreammux, nvinfer,
+    # nvdsosd, ...) are invisible to gst_element_factory_make() and every
+    # deepstream-*-app sample fails with "One element could not be
+    # created." Install a profile.d snippet so every login shell picks
+    # this up automatically instead of requiring users to export it
+    # themselves each session.
+    install -d ${D}${sysconfdir}/profile.d
+    cat > ${D}${sysconfdir}/profile.d/nvidia-deepstream-gst-plugin-path.sh <<EOF
+export GST_PLUGIN_PATH="${libdir}/gstreamer-1.0/deepstream:\$GST_PLUGIN_PATH"
+EOF
+
     cp -R --preserve=mode,timestamps ${S}${DEEPSTREAM_PATH}/samples ${D}${DEEPSTREAM_PATH}/
     cp -R --preserve=mode,timestamps ${S}${DEEPSTREAM_PATH}/sources/ ${D}${DEEPSTREAM_PATH}/
+
+    # nvinfer caches each model's compiled TensorRT engine as a sibling
+    # file next to the source model (e.g.
+    # samples/models/Primary_Detector/*.engine) the first time it runs.
+    # Upstream ships samples/models root:root 0755, so the default
+    # interactive user (weston, on core-image-weston) can't write the
+    # cache there and every run rebuilds the engine from scratch.
+    chmod -R o+w ${D}${DEEPSTREAM_PATH}/samples/models
 
     # XXX---
     # Some of the libraries are not using the right SONAME
@@ -156,6 +177,7 @@ PACKAGES = "${PN}-samples-data ${PN}-samples ${PN}-dev ${PN}-staticdev ${PN}-sou
 
 FILES:${PN} = "\
     ${sysconfdir}/ld.so.conf.d/  \
+    ${sysconfdir}/profile.d/nvidia-deepstream-gst-plugin-path.sh \
     ${libdir}/gstreamer-1.0/deepstream \
     ${DEEPSTREAM_PATH}/lib \
     ${DEEPSTREAM_BASEDIR} \

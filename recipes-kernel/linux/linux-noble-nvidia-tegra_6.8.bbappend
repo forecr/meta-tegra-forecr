@@ -1,3 +1,5 @@
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+
 # Point Forecr machines (MACHINEOVERRIDES contains "forecr", set by each
 # conf/machine/forecr-*.conf) at Forecr's kernel fork, and select a per-board
 # defconfig by MACHINE. All overrides below are scoped so building a stock
@@ -16,6 +18,16 @@ SRCBRANCH:forecr = "JetPack-7.2"
 SRCREV:forecr = "7d692fe38085fbb4dab755a01220d6216399cfd9"
 KBRANCH:forecr = "${SRCBRANCH}"
 KERNEL_REPO:forecr = "${SRC_REPO}"
+
+# CONFIG_UDMABUF is not set in the base defconfig on any Forecr board.
+# nvv4l2decoder's buffer pool needs /dev/udmabuf when its output feeds nvstreammux 
+# without it, the pool degrades. ("Udmabuf allocator not available, 
+# can't open /dev/udmabuf: No such file or directory" -> "Uncertain or 
+# not enough buffers, enabling copy threshold" -> "Driver should never set 
+# v4l2_buffer.field to ANY") and the very next buffer push fails, surfacing 
+# (misleadingly) as "Internal data stream error" reported against h264parse 
+# rather than the decoder or streammux where the actual problem is.
+SRC_URI:append:forecr = " file://udmabuf.cfg"
 
 # Forecr's fork ships the full L4T public-sources tree (kernel/, hardware/,
 # nvgpu/, ...), not a bare kernel source tree -- extract the actual kernel
