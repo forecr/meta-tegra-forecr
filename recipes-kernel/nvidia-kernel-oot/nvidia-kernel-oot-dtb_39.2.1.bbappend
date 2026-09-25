@@ -11,10 +11,10 @@ SRC_URI:append:forecr-raiboard-agx = " \
 SRCREV_forecr-dts = "7d692fe38085fbb4dab755a01220d6216399cfd9"
 
 add_forecr_raiboard_dts_files() {
-    :
-}
-add_forecr_raiboard_dts_files:forecr-raiboard-agx() {
-    cp -a ${S}/forecr-dts-tmp/hardware/nvidia/. ${S}/hardware/nvidia/
+    cp -rf ${S}/forecr-dts-tmp/hardware/nvidia/t23x/nv-public/nv-platform/. ${DT_FILES_PATH}
+    cp -rf ${S}/forecr-dts-tmp/hardware/nvidia/t23x/nv-public/. ${DT_NV_BASE}/t23x/nv-public
     rm -rf ${S}/forecr-dts-tmp
 }
-do_unpack[postfuncs] += "add_forecr_raiboard_dts_files"
+do_configure:prepend:forecr-raiboard-agx() {
+    add_forecr_raiboard_dts_files
+}
