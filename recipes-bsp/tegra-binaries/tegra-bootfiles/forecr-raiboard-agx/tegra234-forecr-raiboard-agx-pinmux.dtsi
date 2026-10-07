@@ -15,7 +15,7 @@
 
 /dts-v1/;
 #include "pinctrl-tegra.h"
-#include "tegra234-mb1-bct-gpio-p3701-0000.dtsi"
+#include "tegra234-forecr-raiboard-agx-gpio-default.dtsi"
 / {
 	pinmux@2430000 {
 		pinctrl-names = "default", "drive", "unused";

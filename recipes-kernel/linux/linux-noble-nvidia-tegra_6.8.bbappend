@@ -19,6 +19,10 @@ SRCREV:forecr = "7d692fe38085fbb4dab755a01220d6216399cfd9"
 KBRANCH:forecr = "${SRCBRANCH}"
 KERNEL_REPO:forecr = "${SRC_REPO}"
 
+# RAIBOARD-AGX tracks the fork's JetPack-7.2.1 branch
+SRCBRANCH:forecr-raiboard-agx = "JetPack-7.2.1"
+SRCREV:forecr-raiboard-agx = "fe64c0cddbcaed7df06abfd5f76fd3da7a7a2163"
+
 # CONFIG_UDMABUF is not set in the base defconfig on any Forecr board.
 # nvv4l2decoder's buffer pool needs /dev/udmabuf when its output feeds nvstreammux 
 # without it, the pool degrades. ("Udmabuf allocator not available, 
