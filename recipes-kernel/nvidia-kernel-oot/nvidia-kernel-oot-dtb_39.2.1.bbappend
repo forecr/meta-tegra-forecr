@@ -1,0 +1,27 @@
+# Bitbake append file to add our custom devicetrees
+# Author: Kaya Kaan Tuna <kayatuna@forecr.io>
+
+SRC_REPO_FORECR_T23X_DTS ?= "github.com/forecr/forecr_xavier_kernel.git;protocol=https"
+SRCBRANCH_FORECR_T23X_DTS ?= "JetPack-7.2.1"
+
+SRC_URI:append:forecr-raiboard-agx = " \
+    git://${SRC_REPO_FORECR_T23X_DTS};branch=${SRCBRANCH_FORECR_T23X_DTS};name=forecr-dts;destsuffix=forecr-dts-tmp \
+"
+# Same fork commit the kernel recipe itself
+SRCREV_forecr-dts = "fe64c0cddbcaed7df06abfd5f76fd3da7a7a2163"
+
+# "cp: cannot stat …" error changed to UNPACKDIR
+add_forecr_raiboard_dts_files() {
+    cp -rf ${UNPACKDIR}/forecr-dts-tmp/hardware/nvidia/t23x/nv-public/nv-platform/. ${DT_FILES_PATH}
+    cp -rf ${UNPACKDIR}/forecr-dts-tmp/hardware/nvidia/t23x/nv-public/. ${DT_NV_BASE}/t23x/nv-public
+    rm -rf ${UNPACKDIR}/forecr-dts-tmp
+    # Forecr .dts files set nvidia,dtsfilename = __FILE__, which cpp expands
+    # to the absolute build path and trips the buildpaths QA check. Use the
+    # bare file name instead (stock NVIDIA .dts files don't set it at all).
+    grep -rl --include='*.dts' 'nvidia,dtsfilename = __FILE__' ${DT_NV_BASE}/t23x/nv-public | while read -r f; do
+        sed -i "s|nvidia,dtsfilename = __FILE__;|nvidia,dtsfilename = \"$(basename $f)\";|" "$f"
+    done
+}
+do_configure:prepend:forecr-raiboard-agx() {
+    add_forecr_raiboard_dts_files
+}
