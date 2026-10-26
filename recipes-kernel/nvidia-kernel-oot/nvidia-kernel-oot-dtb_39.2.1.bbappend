@@ -19,6 +19,7 @@ add_forecr_raiboard_dts_files() {
         sed -i "s|nvidia,dtsfilename = __FILE__;|nvidia,dtsfilename = \"$(basename $f)\";|" "$f"
     done
 }
-do_configure:prepend:forecr-raiboard-agx() {
+
+do_configure:prepend:forecr() {
     add_forecr_raiboard_dts_files
 }
