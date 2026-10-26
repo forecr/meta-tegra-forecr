@@ -1,14 +1,11 @@
 # Bitbake append file to add our custom devicetrees
 # Author: Kaya Kaan Tuna <kayatuna@forecr.io>
 
-SRC_REPO_FORECR_T23X_DTS ?= "github.com/forecr/forecr_xavier_kernel.git;protocol=https"
-SRCBRANCH_FORECR_T23X_DTS ?= "JetPack-7.2.1"
+require recipes-bsp/forecr-sources/forecr-kernel-sources-39.2.1.inc
 
-SRC_URI:append:forecr-raiboard-agx = " \
-    git://${SRC_REPO_FORECR_T23X_DTS};branch=${SRCBRANCH_FORECR_T23X_DTS};name=forecr-dts;destsuffix=forecr-dts-tmp \
+SRC_URI:append:forecr = " \
+    git://${SRC_REPO};branch=${SRCBRANCH};name=forecr-dts;destsuffix=forecr-dts-tmp \
 "
-# Same fork commit the kernel recipe itself
-SRCREV_forecr-dts = "fe64c0cddbcaed7df06abfd5f76fd3da7a7a2163"
 
 # "cp: cannot stat …" error changed to UNPACKDIR
 add_forecr_raiboard_dts_files() {
