@@ -1,23 +1,6 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-# Point Forecr machines (MACHINEOVERRIDES contains "forecr", set by each
-# conf/machine/forecr-*.conf) at Forecr's kernel fork, and select a per-board
-# defconfig by MACHINE. All overrides below are scoped so building a stock
-# upstream machine (e.g. jetson-agx-orin-devkit) with this layer present in
-# BBLAYERS is unaffected.
-#
-# NOT YET BUILD-VERIFIED. Known risk: the base recipe's local patch/config
-# files (libbpf/perf fixes, disable-fw-user-helper.cfg, systemd.cfg,
-# disable-module-signing.cfg, fbcon.cfg, tegra-ip-nf.cfg) are written against
-# NVIDIA's canonical l4t-r39.2 linux-noble.git tree; whether they apply
-# cleanly against Forecr's forked tree (which already carries its own L4T
-# patch set) is unverified -- if do_patch fails, check whether the fork
-# already includes the fix and SRC_URI:remove the redundant one.
-SRC_REPO:forecr = "github.com/forecr/forecr_xavier_kernel.git;protocol=https"
-SRCBRANCH:forecr = "JetPack-7.2"
-SRCREV:forecr = "7d692fe38085fbb4dab755a01220d6216399cfd9"
-KBRANCH:forecr = "${SRCBRANCH}"
-KERNEL_REPO:forecr = "${SRC_REPO}"
+require recipes-bsp/forecr-sources/forecr-kernel-sources-39.2.1.inc
 
 # DSBOARD-ORNX tracks the fork's JetPack-7.2.1 branch (matches L4T 39.2.1;
 # its DSBOARD-ORNX device trees were added there in 7054ce4). The more
@@ -81,4 +64,5 @@ addtask replace_kernel_src_files after do_validate_branches before do_kernel_met
 KBUILD_DEFCONFIG:forecr-dsboard-agx = "dsboard_agx_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t4000 = "dsboard_thrmax_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t5000 = "dsboard_thrmax_defconfig"
+KBUILD_DEFCONFIG:forecr-raiboard-agx = "raiboard_agx_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-ornx = "dsboard_ornx_defconfig"
