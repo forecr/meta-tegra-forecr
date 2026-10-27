@@ -138,7 +138,7 @@ if [ "$known" -eq 0 ]; then
     echo "warning: '$MACHINE' is not one of the known meta-tegra-forecr machines (see -h) -- continuing anyway" >&2
 fi
 
-[ -z ${BUILD_DIR} ] && {
+[ -z "${BUILD_DIR:-}" ] && {
     BUILD_DIR="$YOCTO_DIR/build-$MACHINE"
 }
 

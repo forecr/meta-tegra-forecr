@@ -24,6 +24,21 @@ do_install:append:forecr-dsboard-agx() {
     sed -i "s/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/g" ${D}${datadir}/tegraflash/tegra234-mb2-bct-common.dtsi
 }
 
+# DSBOARD-ORNX (Orin NX / Orin Nano).
+SRC_URI:append:forecr-dsboard-ornx = " \
+    file://forecr-dsboard-ornx/tegra234-forecr-dsboard-ornx-gpio-default.dtsi \
+    file://forecr-dsboard-ornx/tegra234-forecr-dsboard-ornx-padvoltage-default.dtsi \
+    file://forecr-dsboard-ornx/tegra234-forecr-dsboard-ornx-pinmux.dtsi \
+"
+
+do_install:append:forecr-dsboard-ornx() {
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-dsboard-ornx/tegra234-forecr-dsboard-ornx-gpio-default.dtsi ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-dsboard-ornx/tegra234-forecr-dsboard-ornx-padvoltage-default.dtsi ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-dsboard-ornx/tegra234-forecr-dsboard-ornx-pinmux.dtsi ${D}${datadir}/tegraflash/
+    # No CVB EEPROM on Forecr carriers.
+    sed -i "s/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/g" ${D}${datadir}/tegraflash/tegra234-mb2-bct-misc-p3767-0000.dts
+}
+
 # Each of TEGRA_FLASHVAR_PINMUX_CONFIG/PMC_CONFIG (the two .dts files below)
 # is a thin wrapper -- /dts-v1/; / { mb1_bct { padctl@0 / pmc@0 { #include
 # "<name>.dtsi" }; }; }; -- around a separate .dtsi fragment carrying the

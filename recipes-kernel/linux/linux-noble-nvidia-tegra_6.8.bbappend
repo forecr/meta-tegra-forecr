@@ -19,6 +19,12 @@ SRCREV:forecr = "7d692fe38085fbb4dab755a01220d6216399cfd9"
 KBRANCH:forecr = "${SRCBRANCH}"
 KERNEL_REPO:forecr = "${SRC_REPO}"
 
+# DSBOARD-ORNX tracks the fork's JetPack-7.2.1 branch (matches L4T 39.2.1;
+# its DSBOARD-ORNX device trees were added there in 7054ce4). The more
+# specific forecr-dsboard-ornx override wins over :forecr above.
+SRCBRANCH:forecr-dsboard-ornx = "JetPack-7.2.1"
+SRCREV:forecr-dsboard-ornx = "f3d3deba9e68139055b2de7398108e5dfab1d855"
+
 # CONFIG_UDMABUF is not set in the base defconfig on any Forecr board.
 # nvv4l2decoder's buffer pool needs /dev/udmabuf when its output feeds nvstreammux 
 # without it, the pool degrades. ("Udmabuf allocator not available, 
@@ -75,3 +81,4 @@ addtask replace_kernel_src_files after do_validate_branches before do_kernel_met
 KBUILD_DEFCONFIG:forecr-dsboard-agx = "dsboard_agx_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t4000 = "dsboard_thrmax_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t5000 = "dsboard_thrmax_defconfig"
+KBUILD_DEFCONFIG:forecr-dsboard-ornx = "dsboard_ornx_defconfig"
