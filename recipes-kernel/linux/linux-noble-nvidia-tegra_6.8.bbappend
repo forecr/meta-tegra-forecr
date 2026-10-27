@@ -2,6 +2,12 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 require recipes-bsp/forecr-sources/forecr-kernel-sources-39.2.1.inc
 
+# DSBOARD-ORNX tracks the fork's JetPack-7.2.1 branch (matches L4T 39.2.1;
+# its DSBOARD-ORNX device trees were added there in 7054ce4). The more
+# specific forecr-dsboard-ornx override wins over :forecr above.
+SRCBRANCH:forecr-dsboard-ornx = "JetPack-7.2.1"
+SRCREV:forecr-dsboard-ornx = "f3d3deba9e68139055b2de7398108e5dfab1d855"
+
 # CONFIG_UDMABUF is not set in the base defconfig on any Forecr board.
 # nvv4l2decoder's buffer pool needs /dev/udmabuf when its output feeds nvstreammux 
 # without it, the pool degrades. ("Udmabuf allocator not available, 
@@ -59,3 +65,4 @@ KBUILD_DEFCONFIG:forecr-dsboard-agx = "dsboard_agx_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t4000 = "dsboard_thrmax_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t5000 = "dsboard_thrmax_defconfig"
 KBUILD_DEFCONFIG:forecr-raiboard-agx = "raiboard_agx_defconfig"
+KBUILD_DEFCONFIG:forecr-dsboard-ornx = "dsboard_ornx_defconfig"
