@@ -14,3 +14,10 @@ SRC_URI:append:forecr-dsboard-agx = " file://forecr-dsboard-agx/uefi_t23x_genera
 do_deploy:append:forecr-dsboard-agx() {
     install -m 0644 ${UNPACKDIR}/forecr-dsboard-agx/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
 }
+
+FILESEXTRAPATHS:prepend:forecr-dsboard-agxs :=  "${THISDIR}/${BPN}:"
+SRC_URI:append:forecr-dsboard-agxs = " file://forecr-dsboard-agxs/uefi_t23x_general_RELEASE.bin"
+
+do_deploy:append:forecr-dsboard-agxs() {
+    install -m 0644 ${UNPACKDIR}/forecr-dsboard-agxs/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
+}
