@@ -23,6 +23,12 @@ SRC_URI:append:forecr-dsboard-agxs = " \
     file://forecr-dsboard-agxs/tegra234-forecr-dsboard-agxs-pinmux.dtsi \
 "
 
+SRC_URI:append:forecr-milboard-agx = " \
+    file://forecr-milboard-agx/tegra234-forecr-milboard-agx-gpio-default.dtsi \
+    file://forecr-milboard-agx/tegra234-forecr-milboard-agx-padvoltage-default.dtsi \
+    file://forecr-milboard-agx/tegra234-forecr-milboard-agx-pinmux.dtsi \
+"
+
 
 SRC_URI:append:forecr-raiboard-agx = " \
     file://forecr-raiboard-agx/tegra234-forecr-raiboard-agx-gpio-default.dtsi \
@@ -60,6 +66,19 @@ do_install:append:forecr-dsboard-agxs() {
     install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-dsboard-agxs/tegra234-forecr-dsboard-agxs-gpio-default.dtsi ${D}${datadir}/tegraflash/
     install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-dsboard-agxs/tegra234-forecr-dsboard-agxs-padvoltage-default.dtsi ${D}${datadir}/tegraflash/
     install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-dsboard-agxs/tegra234-forecr-dsboard-agxs-pinmux.dtsi ${D}${datadir}/tegraflash/
+    # None of Forecr's carrier boards populate the NVIDIA reference carrier's
+    # EEPROM -- disable the MB2 read so it doesn't stall/fail trying to read
+    # one that isn't there. Confirmed necessary (not just theoretical) by
+    # diffing against a hand-tuned NVIDIA-SDK-Manager Linux_for_Tegra tree
+    # for this exact board family, where this exact line was the change.
+    # Matches this layer's scarthgap-branch fix for AGX Orin.
+    sed -i "s/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/g" ${D}${datadir}/tegraflash/tegra234-mb2-bct-common.dtsi
+}
+
+do_install:append:forecr-milboard-agx() {
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-agx/tegra234-forecr-milboard-agx-gpio-default.dtsi ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-agx/tegra234-forecr-milboard-agx-padvoltage-default.dtsi ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-agx/tegra234-forecr-milboard-agx-pinmux.dtsi ${D}${datadir}/tegraflash/
     # None of Forecr's carrier boards populate the NVIDIA reference carrier's
     # EEPROM -- disable the MB2 read so it doesn't stall/fail trying to read
     # one that isn't there. Confirmed necessary (not just theoretical) by

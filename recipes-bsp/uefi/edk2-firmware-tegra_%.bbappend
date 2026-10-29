@@ -22,3 +22,10 @@ SRC_URI:append:forecr-dsboard-agxs = " file://forecr-dsboard-agxs/uefi_t23x_gene
 do_deploy:append:forecr-dsboard-agxs() {
     install -m 0644 ${UNPACKDIR}/forecr-dsboard-agxs/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
 }
+
+SRC_URI:append:forecr-milboard-agx = " file://forecr-milboard-agx/uefi_t23x_general_RELEASE.bin"
+do_deploy:append:forecr-milboard-agx() {
+    install -m 0644 ${UNPACKDIR}/forecr-milboard-agx/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
+}
+
+}
