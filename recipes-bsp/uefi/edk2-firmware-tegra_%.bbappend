@@ -28,4 +28,7 @@ do_deploy:append:forecr-milboard-agx() {
     install -m 0644 ${UNPACKDIR}/forecr-milboard-agx/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
 }
 
+SRC_URI:append:forecr-milboard-agxmax = " file://forecr-milboard-agxmax/uefi_t23x_general_RELEASE.bin"
+do_deploy:append:forecr-milboard-agxmax() {
+    install -m 0644 ${UNPACKDIR}/forecr-milboard-agxmax/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
 }
