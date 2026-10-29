@@ -13,6 +13,11 @@ do_deploy:append:forecr-dsboard-agx() {
     install -m 0644 ${UNPACKDIR}/forecr-dsboard-agx/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
 }
 
+SRC_URI:append:forecr-dsboard-agxmax = " file://forecr-dsboard-agxmax/uefi_t23x_general_RELEASE.bin"
+do_deploy:append:forecr-dsboard-agxmax() {
+    install -m 0644 ${UNPACKDIR}/forecr-dsboard-agxmax/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
+}
+
 SRC_URI:append:forecr-dsboard-agxs = " file://forecr-dsboard-agxs/uefi_t23x_general_RELEASE.bin"
 do_deploy:append:forecr-dsboard-agxs() {
     install -m 0644 ${UNPACKDIR}/forecr-dsboard-agxs/uefi_t23x_general_RELEASE.bin ${DEPLOYDIR}/${TEGRA_FLASHVAR_UEFI_IMAGE}.bin
