@@ -1,0 +1,9 @@
+/dts-v1/;
+
+/ {
+	mb1_bct {
+		padctl@0 {
+			#include "tegra264-mb1-bct-pinmux-forecr-milboard-thr.dtsi"
+		};
+	};
+};

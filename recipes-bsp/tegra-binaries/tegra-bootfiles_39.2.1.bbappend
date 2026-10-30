@@ -161,3 +161,35 @@ install_forecr_dsboard_thrmax_files() {
 do_install:append:forecr-dsboard-thrmax() {
     install_forecr_dsboard_thrmax_files
 }
+
+SRC_URI:append:forecr-milboard-thr = " \
+    file://forecr-milboard-thr/tegra264-mb1-bct-gpio-forecr-milboard-thr.dtsi \
+    file://forecr-milboard-thr/tegra264-mb1-bct-pinmux-forecr-milboard-thr.dts \
+    file://forecr-milboard-thr/tegra264-mb1-bct-pinmux-forecr-milboard-thr.dtsi \
+    file://forecr-milboard-thr/tegra264-mb1-bct-padvoltage-forecr-milboard-thr.dts \
+    file://forecr-milboard-thr/tegra264-mb1-bct-padvoltage-forecr-milboard-thr.dtsi \
+"
+
+install_forecr_milboard_thr_files() {
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-thr/tegra264-mb1-bct-gpio-forecr-milboard-thr.dtsi ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-thr/tegra264-mb1-bct-pinmux-forecr-milboard-thr.dts ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-thr/tegra264-mb1-bct-pinmux-forecr-milboard-thr.dtsi ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-thr/tegra264-mb1-bct-padvoltage-forecr-milboard-thr.dts ${D}${datadir}/tegraflash/
+    install -m 0644 ${CUSTOM_DTSI_DIR}/forecr-milboard-thr/tegra264-mb1-bct-padvoltage-forecr-milboard-thr.dtsi ${D}${datadir}/tegraflash/
+
+    # None of Forecr's carrier boards populate the NVIDIA reference carrier's
+    # EEPROM -- disable the MB2 read so it doesn't stall/fail trying to read
+    # one that isn't there. Confirmed necessary (not just theoretical) by
+    # diffing against a hand-tuned NVIDIA-SDK-Manager Linux_for_Tegra tree
+    # for this exact board family (JetPack 7.1 -- most of that diff was
+    # legitimate 7.1-vs-7.2 version drift, but this one line was clearly a
+    # deliberate hand-applied change, matching this layer's scarthgap-branch
+    # fix for AGX Orin exactly). Suspected as the actual cause of an early
+    # RCM boot-loop (device repeatedly re-entering APX/recovery mode instead
+    # of completing MB1/MB2 boot) seen while bringing up DSBOARD-THRMAX.
+    sed -i "s/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/g" ${D}${datadir}/tegraflash/tegra264-mb2-bct-common.dtsi
+}
+
+do_install:append:forecr-milboard-thr() {
+    install_forecr_milboard_thr_files
+}
