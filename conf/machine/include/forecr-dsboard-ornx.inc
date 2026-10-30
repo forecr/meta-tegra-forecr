@@ -25,23 +25,10 @@ TEGRA_FLASHVAR_PMC_CONFIG = "tegra234-forecr-dsboard-ornx-padvoltage-default.dts
 TEGRA_FLASHVAR_ODMDATA = "gbe-uphy-config-9,hsstp-lane-map-3,hsio-uphy-config-0"
 
 # AI/multimedia stack -- same set as the other Forecr machines.
-# tensorrt: meta-tegra renamed tensorrt-core to tensorrt (9faab934).
 # kernel-module-vfat: dsboard_ornx_defconfig builds VFAT as a module, and
 # /boot/efi (the ESP, vfat) fails to mount without it.
+require conf/machine/include/forecr-recommends.inc
+
 MACHINE_EXTRA_RRECOMMENDS += "\
-    cudnn \
-    cuda-toolkit \
-    tensorrt \
-    deepstream-9.1 \
-    deepstream-9.1-samples \
-    deepstream-9.1-pyds \
-    deepstream-9.1-pyds-samples \
-    gstreamer1.0-plugins-bad-videoparsersbad \
-    gstreamer1.0-plugins-nveglgles \
-    gstreamer1.0-plugins-nvvideosinks \
-    gstreamer1.0-plugins-bad-waylandsink \
-    gstreamer1.0-plugins-good-isomp4 \
-    gstreamer1.0-plugins-good-matroska \
-    udev-rules-forecr \
     kernel-module-vfat \
 "

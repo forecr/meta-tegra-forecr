@@ -62,7 +62,10 @@ do_replace_kernel_src_files:forecr() {
 addtask replace_kernel_src_files after do_validate_branches before do_kernel_metadata do_patch
 
 KBUILD_DEFCONFIG:forecr-dsboard-agx = "dsboard_agx_defconfig"
-KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t4000 = "dsboard_thrmax_defconfig"
-KBUILD_DEFCONFIG:forecr-dsboard-thrmax-t5000 = "dsboard_thrmax_defconfig"
+KBUILD_DEFCONFIG:forecr-dsboard-agxs = "dsboard_agx_defconfig"
+KBUILD_DEFCONFIG:forecr-dsboard-agxmax = "dsboard_agx_defconfig"
+KBUILD_DEFCONFIG:forecr-dsboard-thrmax = "dsboard_thrmax_defconfig"
+KBUILD_DEFCONFIG:forecr-milboard-agx = "milboard_agx_defconfig"
+KBUILD_DEFCONFIG:forecr-milboard-agxmax = "milboard_agx_defconfig"
 KBUILD_DEFCONFIG:forecr-raiboard-agx = "raiboard_agx_defconfig"
 KBUILD_DEFCONFIG:forecr-dsboard-ornx = "dsboard_ornx_defconfig"

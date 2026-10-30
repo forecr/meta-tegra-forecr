@@ -50,14 +50,7 @@ do_install:append:forecr-dsboard-ornx() {
 # tegraflash_generate_mb1_bct with "DTC command failed" -- dtc rejects a
 # file with no /dts-v1/ root. Verified locally with cpp+dtc against the real
 # flash package (stock headers + these five files) before wiring this up.
-SRC_URI:append:forecr-dsboard-thrmax-t4000 = " \
-    file://forecr-dsboard-thrmax/tegra264-mb1-bct-gpio-forecr-dsboard-thrmax.dts \
-    file://forecr-dsboard-thrmax/tegra264-mb1-bct-pinmux-forecr-dsboard-thrmax.dts \
-    file://forecr-dsboard-thrmax/tegra264-mb1-bct-pinmux-forecr-dsboard-thrmax.dtsi \
-    file://forecr-dsboard-thrmax/tegra264-mb1-bct-padvoltage-forecr-dsboard-thrmax.dts \
-    file://forecr-dsboard-thrmax/tegra264-mb1-bct-padvoltage-forecr-dsboard-thrmax.dtsi \
-"
-SRC_URI:append:forecr-dsboard-thrmax-t5000 = " \
+SRC_URI:append:forecr-dsboard-thrmax = " \
     file://forecr-dsboard-thrmax/tegra264-mb1-bct-gpio-forecr-dsboard-thrmax.dts \
     file://forecr-dsboard-thrmax/tegra264-mb1-bct-pinmux-forecr-dsboard-thrmax.dts \
     file://forecr-dsboard-thrmax/tegra264-mb1-bct-pinmux-forecr-dsboard-thrmax.dtsi \
@@ -85,9 +78,6 @@ install_forecr_dsboard_thrmax_files() {
     sed -i "s/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/g" ${D}${datadir}/tegraflash/tegra264-mb2-bct-common.dtsi
 }
 
-do_install:append:forecr-dsboard-thrmax-t4000() {
-    install_forecr_dsboard_thrmax_files
-}
-do_install:append:forecr-dsboard-thrmax-t5000() {
+do_install:append:forecr-dsboard-thrmax() {
     install_forecr_dsboard_thrmax_files
 }

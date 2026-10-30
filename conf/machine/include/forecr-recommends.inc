@@ -1,21 +1,3 @@
-#@TYPE: Machine
-#@NAME: Forecr DSBOARD-AGX
-#@DESCRIPTION: Forecr DSBOARD-AGX carrier board for the Jetson AGX Orin
-# (P3701) module.
-
-MACHINEOVERRIDES =. "forecr:"
-
-require conf/machine/include/agx-orin.inc
-require conf/machine/include/p3737.inc
-
-KERNEL_DEVICETREE ?= "tegra234-p3737-0000+p3701-0000-nv.dtb"
-TEGRA_BUPGEN_SPECS ?= "fab=300;boardsku=0000;boardrev=;chipsku=00:00:00:D0;bup_type=bl \
-                       fab=300;boardsku=0000;boardrev=;bup_type=kernel"
-
-# Board-specific pinmux/padvoltage.
-TEGRA_FLASHVAR_PINMUX_CONFIG = "tegra234-forecr-dsboard-agx-pinmux.dtsi"
-TEGRA_FLASHVAR_PMC_CONFIG = "tegra234-forecr-dsboard-agx-padvoltage-default.dtsi"
-
 # DeepStream SDK. deepstream-9.1/-pyds and their meta-tegra-community-only
 # DEPENDS (yaml-cpp-080, opentelemetry-cpp-1230, python3-cuda,
 # python3-pyclibrary) are vendored directly into this layer's
@@ -28,8 +10,10 @@ TEGRA_FLASHVAR_PMC_CONFIG = "tegra234-forecr-dsboard-agx-padvoltage-default.dtsi
 # yet tested on AGX Orin, but added here too since Orin likely doesn't
 # have the same split display/render topology (single integrated GPU) --
 # worth confirming whether nv3dsink even has the same problem there.
+# tensorrt: meta-tegra renamed tensorrt-core to tensorrt (9faab934).
 MACHINE_EXTRA_RRECOMMENDS += "\
     cudnn \
+    tensorrt \
     deepstream-9.1 \
     deepstream-9.1-samples \
     deepstream-9.1-pyds \
