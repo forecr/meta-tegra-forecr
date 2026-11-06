@@ -11,7 +11,7 @@
 # have the same split display/render topology (single integrated GPU) --
 # worth confirming whether nv3dsink even has the same problem there.
 # tensorrt: meta-tegra renamed tensorrt-core to tensorrt (9faab934).
-MACHINE_EXTRA_RRECOMMENDS += "\
+FORECR_AI_RRECOMMENDS ?= "\
     cudnn \
     tensorrt \
     deepstream-9.1 \
@@ -22,5 +22,9 @@ MACHINE_EXTRA_RRECOMMENDS += "\
     gstreamer1.0-plugins-nveglgles \
     gstreamer1.0-plugins-nvvideosinks \
     gstreamer1.0-plugins-bad-waylandsink \
+"
+
+MACHINE_EXTRA_RRECOMMENDS += "\
+    ${FORECR_AI_RRECOMMENDS} \
     udev-rules-forecr \
 "
